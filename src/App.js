@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super();
+    this.state = {
+      text: '',
+      chat: ['Hola']
+    }
+    this.controllerWriter = this.controllerWriter.bind(this);
+    this.addChat = this.addChat.bind(this);
+  }
+
+  controllerWriter (e) {
+    this.setState({
+      text: e.target.value
+    })
+  }
+
+  addChat() {
+    
+    const line = this.state.text;
+    this.setState((state) => ({
+      chat: [...state.chat, line],
+      text: ''
+    }))
+    console.log(this.state.chat)
+  }
+
+  render() {
+    const chatList = this.state.chat.map(line => <h3>{line}</h3>);
+    return (
+      <div>
+        {chatList}
+        <input 
+          type="text" 
+          name="name" 
+          id="name" 
+          onChange={this.controllerWriter}
+          placeholder="Write..."
+          value={this.state.text}
+        />
+        <button type="submit" onClick={this.addChat} id="btn">send</button>
+      </div>
+    );
+  }
 }
 
 export default App;
